@@ -20,8 +20,8 @@ namespace Web_practice
             LinkBtn_store.Visible = false;
             if (DetailsView_account.DataItemCount == 1)
             {
-                Session["name"] = DetailsView_account.Rows[0].Cells[0].Text;
-                Session["deposit"] = DetailsView_account.Rows[1].Cells[0].Text;
+                Session["name"] = DetailsView_account.Rows[0].Cells[1].Text;
+                Session["deposit"] = DetailsView_account.Rows[1].Cells[1].Text;
                 LinkBtn_store.Visible = true;
             }
             else {

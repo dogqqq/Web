@@ -67,7 +67,7 @@
                 <td class="auto-style34"></td>
                 <td class="auto-style35">
                     <asp:Label ID="lable_passwd" runat="server" Text="密碼: "></asp:Label>
-                    <asp:TextBox ID="text_passwd" runat="server" OnTextChanged="text_passwd_TextChanged"></asp:TextBox>
+                    <asp:TextBox ID="text_passwd" runat="server" OnTextChanged="text_passwd_TextChanged" TextMode="Password"></asp:TextBox>
                 </td>
                 <td class="auto-style36"></td>
             </tr>
@@ -75,7 +75,7 @@
                 <td class="auto-style10"></td>
                 <td class="auto-style32">
                     <asp:Button ID="btn_login" runat="server" Height="21px" OnClick="Button1_Click" Text="登入" Width="46px" />
-                    <asp:LinkButton ID="LinkBtn_store" runat="server" OnClick="LinkBtn_store_Click" Visible="False">進入商店</asp:LinkButton>
+                    <asp:LinkButton ID="LinkBtn_store" runat="server" OnClick="LinkBtn_store_Click" Visible="False" PostBackUrl="~/Store.aspx">進入商店</asp:LinkButton>
                 </td>
                 <td class="auto-style12"></td>
             </tr>
