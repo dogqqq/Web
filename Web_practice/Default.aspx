@@ -86,13 +86,14 @@
                         <Fields>
                             <asp:BoundField DataField="user_name" HeaderText="user_name" SortExpression="user_name" />
                          <asp:BoundField DataField="user_deposit" HeaderText="user_deposit" SortExpression="user_deposit" />
+                            <asp:BoundField DataField="user_phone" HeaderText="user_phone" SortExpression="user_phone" />
                       </Fields>
                     </asp:DetailsView>
                 </td>
                 <td class="auto-style12"></td>
             </tr>
         </table>
-        <asp:SqlDataSource ID="SqlDataSource_user" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT user_name, user_deposit FROM userData WHERE (user_name = @user_name) AND (user_password = @user_password)">
+        <asp:SqlDataSource ID="SqlDataSource_user" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT user_name, user_deposit, user_phone FROM userData WHERE (user_name = @user_name) AND (user_password = @user_password)">
             <SelectParameters>
                 <asp:ControlParameter ControlID="text_id" Name="user_name" PropertyName="Text" Type="String" />
                 <asp:ControlParameter ControlID="text_passwd" Name="user_password" PropertyName="Text" Type="String" />

@@ -22,11 +22,13 @@ namespace Web_practice
             {
                 Session["name"] = DetailsView_account.Rows[0].Cells[1].Text;
                 Session["deposit"] = DetailsView_account.Rows[1].Cells[1].Text;
+                Session["phone"] = DetailsView_account.Rows[2].Cells[1].Text;
                 LinkBtn_store.Visible = true;
             }
             else {
                 Session["name"] = null;
                 Session["deposit"] = null;
+                Session["phone"] = null;
                 DetailsView_account.Visible = true;
             }
         }

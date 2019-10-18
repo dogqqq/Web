@@ -10,6 +10,12 @@
         .auto-style1 {
             width: 100%;
         }
+        .auto-style2 {
+            font-size: large;
+        }
+        .auto-style3 {
+            height: 32px;
+        }
     </style>
 </head>
 <body style="background-position: center center; background-image: url('https://localhost:44344/Husky.jpg'); background-size:cover; background-repeat: no-repeat; background-attachment: fixed;">
@@ -20,18 +26,18 @@
         <table class="auto-style1">
             <tr>
                 <td>
-                    <asp:Label ID="Lable_userShow" runat="server" style="background-color: #FFFFFF" Text="顯示使用者資料"></asp:Label>
+                    <asp:Label ID="Lable_userShow" runat="server" style="background-color: #FFFFFF" Text="顯示使用者資料" CssClass="auto-style2"></asp:Label>
                 </td>
                 <td>&nbsp;</td>
             </tr>
             <tr>
-                <td>
-                    <asp:DropDownList ID="drinkList" runat="server" AutoPostBack="True" DataSourceID="drinkData" DataTextField="drink_name" DataValueField="drink_id" OnSelectedIndexChanged="drinkList_SelectedIndexChanged">
+                <td class="auto-style3">
+                    <asp:DropDownList ID="drinkList" runat="server" AutoPostBack="True" DataSourceID="drinkData" DataTextField="drink_name" DataValueField="drink_id" OnSelectedIndexChanged="drinkList_SelectedIndexChanged" CssClass="auto-style2">
                     </asp:DropDownList>
-                    <asp:Label ID="label_drinkPrice" runat="server" style="background-color: #FFFFFF" Text="價格"></asp:Label>
-                    <asp:Label ID="label_drinkQT" runat="server" style="background-color: #FFFFFF" Text="庫存"></asp:Label>
+                    <asp:Label ID="label_drinkPrice" runat="server" style="background-color: #FFFFFF" Text="價格:X元" CssClass="auto-style2"></asp:Label>
+                    <asp:Label ID="label_drinkQT" runat="server" style="background-color: #FFFFFF" Text="庫存:X個" CssClass="auto-style2"></asp:Label>
                 </td>
-                <td>&nbsp;</td>
+                <td class="auto-style3"></td>
             </tr>
             <tr>
                 <td>
@@ -40,8 +46,25 @@
                 <td>&nbsp;</td>
             </tr>
         </table>
-        <asp:SqlDataSource ID="drinkData" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [drink_name], [drink_id] FROM [drinkData]"></asp:SqlDataSource>
-        <asp:SqlDataSource ID="drinkDataselect" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [drink_price], [drink_qt] FROM [drinkData] WHERE ([drink_id] = @drink_id)">
+        <table class="auto-style1">
+            <tr>
+                <td>
+                    <asp:Button ID="Btn_order" runat="server" CssClass="auto-style2" Text="前往選購" OnClick="Btn_order_Click" />
+                    <asp:Button ID="Btn_refresh" runat="server" CssClass="auto-style2" Text="清空表單" OnClick="Btn_refresh_Click" />
+                </td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+        </table>
+        <br />
+        <asp:SqlDataSource ID="drinkData" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT drink_name, drink_id FROM [drinkData]"></asp:SqlDataSource>
+        <asp:SqlDataSource ID="drinkDataselect" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT drink_price, drink_qt FROM [drinkData] WHERE (drink_id = @drink_id)" InsertCommand="INSERT INTO orderData(order_time, order_phone) VALUES (GETDATE(), @user_phone)" >
+            <InsertParameters>
+                <asp:SessionParameter Name="user_phone" SessionField="phone" />
+            </InsertParameters>
             <SelectParameters>
                 <asp:ControlParameter ControlID="drinkList" Name="drink_id" PropertyName="SelectedValue" Type="Int32" />
             </SelectParameters>
