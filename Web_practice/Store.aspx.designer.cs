@@ -31,6 +31,24 @@ namespace Web_practice {
         protected global::System.Web.UI.WebControls.Label Lable_userShow;
         
         /// <summary>
+        /// Btn_order 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Btn_order;
+        
+        /// <summary>
+        /// Btn_refresh 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Btn_refresh;
+        
+        /// <summary>
         /// drinkList 控制項。
         /// </summary>
         /// <remarks>
@@ -58,6 +76,51 @@ namespace Web_practice {
         protected global::System.Web.UI.WebControls.Label label_drinkQT;
         
         /// <summary>
+        /// cupList 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList cupList;
+        
+        /// <summary>
+        /// cupLB 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label cupLB;
+        
+        /// <summary>
+        /// iceList 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList iceList;
+        
+        /// <summary>
+        /// sweetList 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList sweetList;
+        
+        /// <summary>
+        /// addDrinkBtn 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button addDrinkBtn;
+        
+        /// <summary>
         /// Image_drink 控制項。
         /// </summary>
         /// <remarks>
@@ -67,22 +130,22 @@ namespace Web_practice {
         protected global::System.Web.UI.WebControls.Image Image_drink;
         
         /// <summary>
-        /// Btn_order 控制項。
+        /// orderItemGridView1 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Btn_order;
+        protected global::System.Web.UI.WebControls.GridView orderItemGridView1;
         
         /// <summary>
-        /// Btn_refresh 控制項。
+        /// orderItemDataSource 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Btn_refresh;
+        protected global::System.Web.UI.WebControls.SqlDataSource orderItemDataSource;
         
         /// <summary>
         /// drinkData 控制項。
