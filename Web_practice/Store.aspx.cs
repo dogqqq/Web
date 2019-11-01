@@ -18,11 +18,19 @@ namespace Web_practice
             Lable_userShow.Text = Session["name"] + "歡迎光臨<br>您還剩下: " + Session["deposit"] + "元";
             label_drinkPrice.Text = "";
             label_drinkQT.Text = "";
-            Image_drink.ImageUrl = "./pic/未選取.jpg";
-            for (int i = 0; i < 50; i++)
+            if (drinkList.SelectedItem == null)
             {
-                cupList.Items.Insert(i, new ListItem("" + (i + 1), "" + (i + 1)));
+                Image_drink.ImageUrl = "./pic/未選取.jpg";
             }
+            else
+            {
+                Image_drink.ImageUrl = "./pic/" + drinkList.SelectedItem.Text.ToString() + ".jpg";
+            }
+            //Image_drink.ImageUrl = "./pic/未選取.jpg";
+            //for (int i = 0; i < 50; i++)
+            //{
+            //    cupList.Items.Insert(i, new ListItem("" + (i + 1), "" + (i + 1)));
+            //}
             //cupList.SelectedIndex = 0;
         }
 
@@ -62,6 +70,10 @@ namespace Web_practice
                 addDrinkBtn.Visible = true;
 
             }
+            for (int i = 0; i < 50; i++)
+            {
+                cupList.Items.Insert(i, new ListItem("" + (i + 1), "" + (i + 1)));
+            }
         }
 
         protected void Btn_refresh_Click(object sender, EventArgs e)
@@ -81,6 +93,7 @@ namespace Web_practice
             iceList.Visible = false;
             addDrinkBtn.Visible = false;
             orderItemGridView1.Visible = false;
+
         }
 
         protected void addDrinkBtn_Click(object sender, EventArgs e)
@@ -90,11 +103,7 @@ namespace Web_practice
             {
                 orderItemGridView1.Visible = true;
             }
-        }
-
-        protected void orderItemDataSource_Selecting(object sender, SqlDataSourceSelectingEventArgs e)
-        {
-
+            cupList.SelectedIndex = 0;
         }
     }
 }
