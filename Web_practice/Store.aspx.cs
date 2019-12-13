@@ -32,6 +32,34 @@ namespace Web_practice
             //    cupList.Items.Insert(i, new ListItem("" + (i + 1), "" + (i + 1)));
             //}
             //cupList.SelectedIndex = 0;
+            sweetList.SelectedIndex = 0;
+            iceList.SelectedIndex = 0;
+        }
+
+        private void initial()
+        {
+            drinkList.SelectedIndex = 0;
+            cupList.SelectedIndex = 0;
+            sweetList.SelectedIndex = 0;
+            iceList.SelectedIndex = 0;
+            label_drinkPrice.Text = "";
+            label_drinkQT.Text = "";
+            Image_drink.ImageUrl = "./pic/未選取.jpg";
+
+            Btn_order.Text = "前往選購";
+            Btn_order.Enabled = true;
+
+            cupLB.Visible = false;
+            cupList.Visible = false;
+            sweetList.Visible = false;
+            iceList.Visible = false;
+            addDrinkBtn.Visible = false;
+            addDrinkBtn.Enabled = false;
+            orderItemGridView1.Visible = false;
+            totalLabel.Visible = false;
+            checkBtn.Visible = false;
+            cancelBtn.Visible = false;
+            errorLabel.Visible = false;
         }
 
         protected void drinkList_SelectedIndexChanged(object sender, EventArgs e)
@@ -84,15 +112,8 @@ namespace Web_practice
             orderRefreshCmd.ExecuteNonQuery();
             SqlCommand orderItemRefreshCmd = new SqlCommand("TRUNCATE TABLE order_itemData", orderConnect);
             orderItemRefreshCmd.ExecuteNonQuery();
-            Btn_order.Text = "前往選購";
-            Btn_order.Enabled = true;
 
-            cupLB.Visible = false;
-            cupList.Visible = false;
-            sweetList.Visible = false;
-            iceList.Visible = false;
-            addDrinkBtn.Visible = false;
-            orderItemGridView1.Visible = false;
+            initial();
 
         }
 
@@ -104,6 +125,82 @@ namespace Web_practice
                 orderItemGridView1.Visible = true;
             }
             cupList.SelectedIndex = 0;
+            totalLabel.Visible = true;
+        }
+
+        protected void orderItemGridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            countTotal();
+        }
+
+        private void countTotal()
+        {
+            int total = 0;
+            string warnMessage = "";
+            for(int i = 0; i < orderItemGridView1.Rows.Count; i++)
+            {
+                if(orderItemGridView1.Rows[i].Cells[4].FindControl("subTotalLabel") != null)
+                {
+                    total += Convert.ToInt32(((Label)orderItemGridView1.Rows[i].Cells[4].FindControl("subTotalLabel")).Text);
+                }
+                cupEditCheck(ref warnMessage, i);
+            }
+            totalLabel.Text = warnMessage + "總價格: " + total + "元";
+
+            Session["totalMoney"] = total;
+        }
+
+        private void cupEditCheck(ref string message, int i)
+        {
+            if (orderItemGridView1.Rows[i].Cells[3].FindControl("itemCupLabel") != null)
+            {
+                using (Label tempCupLabel = (Label)orderItemGridView1.Rows[i].Cells[3].FindControl("itemCupLabel"))
+                {
+                    if(tempCupLabel.Text == "0")
+                    {
+                        message = "(錯誤的杯數)";
+                        tempCupLabel.ForeColor = System.Drawing.Color.Red;
+                    }
+                    else
+                    {
+                        tempCupLabel.ForeColor = System.Drawing.Color.Black;
+                    }
+                }
+            }
+        }
+
+        protected void orderItemGridView1_RowDeleted(object sender, GridViewDeletedEventArgs e)
+        {
+            if(orderItemGridView1.Rows.Count == 1)
+            {
+                totalLabel.Visible = false;
+            }
+        }
+
+        protected void editCupTextBox_TextChanged(object sender, EventArgs e)
+        {
+            int flag = 0;
+            foreach (char ch in ((TextBox)sender).Text)
+            {
+                flag = 1;
+                if (!Char.IsDigit(ch))
+                {
+                    ((TextBox)sender).Text = "0";
+  
+                }
+            }
+            if(flag == 0 && ((TextBox)sender).Text != "0")
+            {
+                ((TextBox)sender).Text = "0";
+            }
+        }
+
+        protected void checkBtn_Click(object sender, EventArgs e)
+        {
+            Session["money"] = Convert.ToInt32(Session["money"]) - Convert.ToInt32(Session["totalMoney"]);
+            Lable_userShow.Text = Session["name"] + "歡迎光臨<br>您還剩下: " + Session["deposit"] + "元";
+            clientDataSource.Update();
+            initial();
         }
     }
 }
