@@ -220,14 +220,23 @@
                         Visible="False"></asp:Label>
                     <br />
                     <asp:Button ID="checkBtn" runat="server" CssClass="auto-style2" OnClick="checkBtn_Click" Text="確認訂購" Visible="False" />
-                    <asp:Button ID="cancelBtn" runat="server" CssClass="auto-style2" Text="取消訂購" Visible="False" />
+                    <asp:Button ID="cancelBtn" runat="server" CssClass="auto-style2" Text="取消訂購" 
+                        Visible="False" OnClick="cancelBtn_Click" />
                     <br />
                     <asp:Label ID="errorLabel" runat="server" CssClass="auto-style7" ForeColor="Red" Text="錯誤提示" Visible="False"></asp:Label>
                     <asp:SqlDataSource ID="clientDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT user_name FROM userData" UpdateCommand="UPDATE userData SET user_deposit = @user_deposit WHERE (user_name = @user_name)">
                         <UpdateParameters>
-                            <asp:SessionParameter Name="user_name" SessionField="name" />
                             <asp:SessionParameter Name="user_deposit" SessionField="money" />
+                            <asp:SessionParameter Name="user_name" SessionField="name" />
                         </UpdateParameters>
+                    </asp:SqlDataSource>
+                    <asp:SqlDataSource ID="cancelOrderDataSource" runat="server" 
+                        ConnectionString="<%$ ConnectionStrings:ConnectionString %>" 
+                        DeleteCommand="DELETE FROM order_itemData WHERE (order_id = @order_id)" 
+                        SelectCommand="SELECT drink_id FROM order_itemData">
+                        <DeleteParameters>
+                            <asp:SessionParameter Name="order_id" SessionField="order_id" />
+                        </DeleteParameters>
                     </asp:SqlDataSource>
                     </strong>
                 </td>
@@ -235,7 +244,14 @@
         </table>
         <br />
         <asp:SqlDataSource ID="drinkData" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT drink_name, drink_id FROM [drinkData]"></asp:SqlDataSource>
-        <asp:SqlDataSource ID="drinkDataselect" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT drink_price, drink_qt FROM [drinkData] WHERE (drink_id = @drink_id)" InsertCommand="INSERT INTO orderData(order_time, order_phone) VALUES (GETDATE(), @user_phone)" >
+        <asp:SqlDataSource ID="drinkDataselect" runat="server" 
+            ConnectionString="<%$ ConnectionStrings:ConnectionString %>" 
+            SelectCommand="SELECT drink_price, drink_qt FROM [drinkData] WHERE (drink_id = @drink_id)" 
+            InsertCommand="INSERT INTO orderData(order_time, order_phone) VALUES (GETDATE(), @user_phone)" 
+            DeleteCommand="DELETE FROM orderData WHERE (order_id = @order_id)" >
+            <DeleteParameters>
+                <asp:SessionParameter Name="order_id" SessionField="order_id" />
+            </DeleteParameters>
             <InsertParameters>
                 <asp:SessionParameter Name="user_phone" SessionField="phone" />
             </InsertParameters>
@@ -243,12 +259,74 @@
                 <asp:ControlParameter ControlID="drinkList" Name="drink_id" PropertyName="SelectedValue" Type="Int32" />
             </SelectParameters>
         </asp:SqlDataSource>
-        <asp:DetailsView ID="drinkDetailsView" runat="server" AutoGenerateRows="False" DataSourceID="drinkDataselect" Height="50px" Visible="False" Width="125px">
+        <asp:DetailsView ID="drinkDetailsView" runat="server" AutoGenerateRows="False" DataSourceID="drinkDataselect" Height="50px" Width="125px">
             <Fields>
                 <asp:BoundField DataField="drink_price" HeaderText="drink_price" SortExpression="drink_price" />
                 <asp:BoundField DataField="drink_qt" HeaderText="drink_qt" SortExpression="drink_qt" />
             </Fields>
         </asp:DetailsView>
+
+        <asp:SqlDataSource ID="drinkQTDataSource" runat="server" 
+            ConnectionString="<%$ ConnectionStrings:ConnectionString %>" 
+            SelectCommand="SELECT order_itemData.drink_id, SUM(order_itemData.num) AS totalNum, drinkData.drink_name, drinkData.drink_qt FROM order_itemData INNER JOIN drinkData ON order_itemData.drink_id = drinkData.drink_id WHERE (order_itemData.order_id = @order_id) GROUP BY order_itemData.drink_id, drinkData.drink_name, drinkData.drink_qt" 
+            UpdateCommand="UPDATE drinkData SET drink_qt = @drink_qt WHERE (drink_id = @drink_id)">
+            <SelectParameters>
+                <asp:SessionParameter Name="order_id" SessionField="order_id" />
+            </SelectParameters>
+            <UpdateParameters>
+                <asp:SessionParameter Name="drink_qt" SessionField="updateQTNum" />
+                <asp:SessionParameter Name="drink_id" SessionField="updateQTId" />
+            </UpdateParameters>
+        </asp:SqlDataSource>
+        <asp:GridView ID="qtCheckGridView" runat="server" AutoGenerateColumns="False" 
+            CellPadding="4" DataSourceID="drinkQTDataSource" ForeColor="#333333" 
+            GridLines="None" Visible="False">
+            <AlternatingRowStyle BackColor="White" />
+            <Columns>
+                <asp:TemplateField HeaderText="drink_id" SortExpression="drink_id">
+                    <EditItemTemplate>
+                        <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("drink_id") %>'></asp:TextBox>
+                    </EditItemTemplate>
+                    <ItemTemplate>
+                        <asp:Label ID="QtIdLabel" runat="server" Text='<%# Bind("drink_id") %>'></asp:Label>
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="drink_name" SortExpression="drink_name">
+                    <EditItemTemplate>
+                        <asp:TextBox ID="TextBox2" runat="server" Text='<%# Bind("drink_name") %>'></asp:TextBox>
+                    </EditItemTemplate>
+                    <ItemTemplate>
+                        <asp:Label ID="QtNameLabel" runat="server" Text='<%# Bind("drink_name") %>'></asp:Label>
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="totalNum" SortExpression="totalNum">
+                    <EditItemTemplate>
+                        <asp:Label ID="Label1" runat="server" Text='<%# Eval("totalNum") %>'></asp:Label>
+                    </EditItemTemplate>
+                    <ItemTemplate>
+                        <asp:Label ID="totalNumLabel" runat="server" Text='<%# Bind("totalNum") %>'></asp:Label>
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="drink_qt" SortExpression="drink_qt">
+                    <EditItemTemplate>
+                        <asp:TextBox ID="TextBox3" runat="server" Text='<%# Bind("drink_qt") %>'></asp:TextBox>
+                    </EditItemTemplate>
+                    <ItemTemplate>
+                        <asp:Label ID="checkQtLabel" runat="server" Text='<%# Bind("drink_qt") %>'></asp:Label>
+                    </ItemTemplate>
+                </asp:TemplateField>
+            </Columns>
+            <EditRowStyle BackColor="#7C6F57" />
+            <FooterStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
+            <HeaderStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
+            <PagerStyle BackColor="#666666" ForeColor="White" HorizontalAlign="Center" />
+            <RowStyle BackColor="#E3EAEB" />
+            <SelectedRowStyle BackColor="#C5BBAF" Font-Bold="True" ForeColor="#333333" />
+            <SortedAscendingCellStyle BackColor="#F8FAFA" />
+            <SortedAscendingHeaderStyle BackColor="#246B61" />
+            <SortedDescendingCellStyle BackColor="#D4DFE1" />
+            <SortedDescendingHeaderStyle BackColor="#15524A" />
+        </asp:GridView>
 
     </form>
 </body>

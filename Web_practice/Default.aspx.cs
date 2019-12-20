@@ -24,6 +24,7 @@ namespace Web_practice
                 Session["deposit"] = DetailsView_account.Rows[1].Cells[1].Text;
                 Session["phone"] = DetailsView_account.Rows[2].Cells[1].Text;
                 LinkBtn_store.Visible = true;
+                int temp = Convert.ToInt32(Session["deposit"]);
             }
             else {
                 Session["name"] = null;

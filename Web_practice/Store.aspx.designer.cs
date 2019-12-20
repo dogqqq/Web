@@ -193,6 +193,15 @@ namespace Web_practice {
         protected global::System.Web.UI.WebControls.SqlDataSource clientDataSource;
         
         /// <summary>
+        /// cancelOrderDataSource 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource cancelOrderDataSource;
+        
+        /// <summary>
         /// drinkData 控制項。
         /// </summary>
         /// <remarks>
@@ -218,5 +227,23 @@ namespace Web_practice {
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.DetailsView drinkDetailsView;
+        
+        /// <summary>
+        /// drinkQTDataSource 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource drinkQTDataSource;
+        
+        /// <summary>
+        /// qtCheckGridView 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView qtCheckGridView;
     }
 }
